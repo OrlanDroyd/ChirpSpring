@@ -14,5 +14,4 @@ dependencies {
 
 	implementation(libs.spring.boot.starter.data.jpa)
 	runtimeOnly(libs.postgresql)
-	runtimeOnly(libs.h2)
 }

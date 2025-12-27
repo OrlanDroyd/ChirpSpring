@@ -1,4 +1,4 @@
-package com.github.orlandroyd.user.domain.model
+package com.github.orlandroyd.chirp.domain.model
 
 import java.util.UUID
 
