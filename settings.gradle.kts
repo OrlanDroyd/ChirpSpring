@@ -6,6 +6,9 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 rootProject.name = "chirp"
 
 include("app")
