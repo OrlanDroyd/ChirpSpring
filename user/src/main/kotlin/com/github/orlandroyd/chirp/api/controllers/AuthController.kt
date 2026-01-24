@@ -1,9 +1,6 @@
 package com.github.orlandroyd.chirp.api.controllers
 
-import com.github.orlandroyd.chirp.api.dto.AuthenticatedUserDto
-import com.github.orlandroyd.chirp.api.dto.LoginRequest
-import com.github.orlandroyd.chirp.api.dto.RegisterRequest
-import com.github.orlandroyd.chirp.api.dto.UserDto
+import com.github.orlandroyd.chirp.api.dto.*
 import com.github.orlandroyd.chirp.api.mappers.toAuthenticatedUserDto
 import com.github.orlandroyd.chirp.api.mappers.toUserDto
 import com.github.orlandroyd.chirp.service.auth.AuthService
@@ -36,5 +33,14 @@ class AuthController(private val authService: AuthService) {
             email = body.email,
             password = body.password
         ).toAuthenticatedUserDto()
+    }
+
+    @PostMapping("/refresh")
+    fun refresh(
+        @RequestBody body: RefreshRequest
+    ): AuthenticatedUserDto {
+        return authService
+            .refresh(body.refreshToken)
+            .toAuthenticatedUserDto()
     }
 }
