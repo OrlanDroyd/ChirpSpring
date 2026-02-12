@@ -3,8 +3,8 @@ package com.github.orlandroyd.chirp.api.controllers
 import com.github.orlandroyd.chirp.api.dto.*
 import com.github.orlandroyd.chirp.api.mappers.toAuthenticatedUserDto
 import com.github.orlandroyd.chirp.api.mappers.toUserDto
-import com.github.orlandroyd.chirp.service.auth.AuthService
-import com.github.orlandroyd.chirp.service.auth.EmailVerificationService
+import com.github.orlandroyd.chirp.service.AuthService
+import com.github.orlandroyd.chirp.service.EmailVerificationService
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.*
 

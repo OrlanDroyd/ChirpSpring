@@ -1,4 +1,4 @@
-package com.github.orlandroyd.chirp.service.auth
+package com.github.orlandroyd.chirp.service
 
 import com.github.orlandroyd.chirp.domain.exception.*
 import com.github.orlandroyd.chirp.domain.model.AuthenticatedUser

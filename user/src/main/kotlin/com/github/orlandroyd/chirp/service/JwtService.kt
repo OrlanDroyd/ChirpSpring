@@ -1,4 +1,4 @@
-package com.github.orlandroyd.chirp.service.auth
+package com.github.orlandroyd.chirp.service
 
 import com.github.orlandroyd.chirp.domain.exception.InvalidTokenException
 import com.github.orlandroyd.chirp.domain.model.UserId
