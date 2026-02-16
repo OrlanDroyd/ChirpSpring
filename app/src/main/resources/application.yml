@@ -2,6 +2,15 @@ spring:
   application:
     name: chirp
 
+  data:
+    redis:
+      host: "redis-11621.c250.eu-central-1-1.ec2.cloud.redislabs.com"
+      password: ${REDIS_PASSWORD}
+      username: "default"
+      port: 14109
+      connect-timeout: 5000ms
+      timeout: 2000ms
+
   datasource:
     url: jdbc:postgresql://db.mhmbfgbacoebyuqvnufn.supabase.co:5432/postgres
     username: postgres
