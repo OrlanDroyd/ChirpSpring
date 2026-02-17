@@ -4,6 +4,7 @@ import com.github.orlandroyd.chirp.api.config.IpRateLimit
 import com.github.orlandroyd.chirp.api.dto.*
 import com.github.orlandroyd.chirp.api.mappers.toAuthenticatedUserDto
 import com.github.orlandroyd.chirp.api.mappers.toUserDto
+import com.github.orlandroyd.chirp.api.util.requestUserId
 import com.github.orlandroyd.chirp.infra.rate_limiting.EmailRateLimiter
 import com.github.orlandroyd.chirp.service.AuthService
 import com.github.orlandroyd.chirp.service.EmailVerificationService
@@ -122,6 +123,10 @@ class AuthController(
     fun changePassword(
         @Valid @RequestBody body: ChangePasswordRequest
     ) {
-        // TODO: Extract request user ID and call service
+        passwordResetService.changePassword(
+            userId = requestUserId,
+            oldPassword = body.oldPassword,
+            newPassword = body.newPassword
+        )
     }
 }
