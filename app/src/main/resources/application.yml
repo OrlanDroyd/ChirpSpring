@@ -7,7 +7,7 @@ spring:
       host: "redis-11621.c250.eu-central-1-1.ec2.cloud.redislabs.com"
       password: ${REDIS_PASSWORD}
       username: "default"
-      port: 14109
+      port: 11621
       connect-timeout: 5000ms
       timeout: 2000ms
 

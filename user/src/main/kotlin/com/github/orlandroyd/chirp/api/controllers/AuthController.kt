@@ -3,6 +3,7 @@ package com.github.orlandroyd.chirp.api.controllers
 import com.github.orlandroyd.chirp.api.dto.*
 import com.github.orlandroyd.chirp.api.mappers.toAuthenticatedUserDto
 import com.github.orlandroyd.chirp.api.mappers.toUserDto
+import com.github.orlandroyd.chirp.infra.rate_limiting.EmailRateLimiter
 import com.github.orlandroyd.chirp.service.AuthService
 import com.github.orlandroyd.chirp.service.EmailVerificationService
 import com.github.orlandroyd.chirp.service.PasswordResetService
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.*
 class AuthController(
     private val authService: AuthService,
     private val emailVerificationService: EmailVerificationService,
-    private val passwordResetService: PasswordResetService
+    private val passwordResetService: PasswordResetService,
+    private val emailRateLimiter: EmailRateLimiter
 ) {
 
     @PostMapping("/register")
@@ -52,6 +54,17 @@ class AuthController(
         @RequestBody body: RefreshRequest
     ) {
         authService.logout(body.refreshToken)
+    }
+
+    @PostMapping("/resend-verification")
+    fun resendVerification(
+        @Valid @RequestBody body: EmailRequest
+    ) {
+        emailRateLimiter.withRateLimit(
+            email = body.email
+        ) {
+            emailVerificationService.resendVerificationEmail(body.email)
+        }
     }
 
     @GetMapping("/verify")

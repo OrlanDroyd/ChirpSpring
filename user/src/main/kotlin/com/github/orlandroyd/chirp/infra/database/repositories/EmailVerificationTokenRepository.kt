@@ -12,10 +12,12 @@ interface EmailVerificationTokenRepository : JpaRepository<EmailVerificationToke
     fun deleteByExpiresAtLessThan(now: Instant)
 
     @Modifying
-    @Query("""
+    @Query(
+        """
         UPDATE EmailVerificationTokenEntity e
         SET e.usedAt = CURRENT_TIMESTAMP 
         WHERE e.user = :user
-    """)
+    """
+    )
     fun invalidateActiveTokensForUser(user: UserEntity)
 }
