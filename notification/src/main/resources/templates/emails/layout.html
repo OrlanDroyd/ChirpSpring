@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(content, title)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Email from Chirp</title>
+    <style>
+        body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <!-- Header -->
+    <div th:replace="~{emails/fragments/header :: header}"></div>
+
+    <!-- Main Content -->
+    <div class="content-padding" th:replace="${content}">
+        <!-- Content will be inserted here -->
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="~{emails/fragments/footer :: footer}"></div>
+</div>
+</body>
+</html>
