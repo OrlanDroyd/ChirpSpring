@@ -1,6 +1,6 @@
 package com.github.orlandroyd.chirp.api.dto
 
-import com.github.orlandroyd.chirp.domain.model.UserId
+import com.github.orlandroyd.chirp.domain.type.UserId
 
 data class UserDto(
     val id: UserId,

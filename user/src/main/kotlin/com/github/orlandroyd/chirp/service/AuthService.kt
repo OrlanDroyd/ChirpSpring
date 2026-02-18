@@ -3,7 +3,7 @@ package com.github.orlandroyd.chirp.service
 import com.github.orlandroyd.chirp.domain.exception.*
 import com.github.orlandroyd.chirp.domain.model.AuthenticatedUser
 import com.github.orlandroyd.chirp.domain.model.User
-import com.github.orlandroyd.chirp.domain.model.UserId
+import com.github.orlandroyd.chirp.domain.type.UserId
 import com.github.orlandroyd.chirp.infra.database.entities.RefreshTokenEntity
 import com.github.orlandroyd.chirp.infra.database.entities.UserEntity
 import com.github.orlandroyd.chirp.infra.database.mappers.toUser

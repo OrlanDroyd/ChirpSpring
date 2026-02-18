@@ -1,6 +1,6 @@
 package com.github.orlandroyd.chirp.infra.database.entities
 
-import com.github.orlandroyd.chirp.domain.model.UserId
+import com.github.orlandroyd.chirp.domain.type.UserId
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue

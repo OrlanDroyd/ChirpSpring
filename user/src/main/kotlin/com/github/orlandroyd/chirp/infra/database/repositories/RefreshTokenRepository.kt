@@ -1,6 +1,6 @@
 package com.github.orlandroyd.chirp.infra.database.repositories
 
-import com.github.orlandroyd.chirp.domain.model.UserId
+import com.github.orlandroyd.chirp.domain.type.UserId
 import com.github.orlandroyd.chirp.infra.database.entities.RefreshTokenEntity
 import org.springframework.data.jpa.repository.JpaRepository
 
