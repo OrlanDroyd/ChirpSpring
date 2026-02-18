@@ -4,6 +4,8 @@ package com.github.orlandroyd.chirp.domain.infra.message_queue
 
 import com.github.orlandroyd.chirp.domain.events.ChirpEvent
 import com.github.orlandroyd.chirp.domain.events.user.UserEventConstants
+import org.springframework.amqp.core.Binding
+import org.springframework.amqp.core.BindingBuilder
 import org.springframework.amqp.core.Queue
 import org.springframework.amqp.core.TopicExchange
 import org.springframework.amqp.rabbit.connection.ConnectionFactory
@@ -12,12 +14,14 @@ import org.springframework.amqp.support.converter.JacksonJavaTypeMapper
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.transaction.annotation.EnableTransactionManagement
 import tools.jackson.databind.DefaultTyping
 import tools.jackson.databind.json.JsonMapper
 import tools.jackson.databind.jsontype.BasicPolymorphicTypeValidator
 import tools.jackson.module.kotlin.kotlinModule
 
 @Configuration
+@EnableTransactionManagement
 class RabbitMqConfig {
 
     @Bean
@@ -61,4 +65,15 @@ class RabbitMqConfig {
         MessageQueues.NOTIFICATION_USER_EVENTS,
         true
     )
+
+    @Bean
+    fun notificationUserEventsBinding(
+        notificationUserEventsQueue: Queue,
+        userExchange: TopicExchange,
+    ): Binding {
+        return BindingBuilder
+            .bind(notificationUserEventsQueue)
+            .to(userExchange)
+            .with("user.*")
+    }
 }
