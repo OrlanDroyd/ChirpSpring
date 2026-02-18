@@ -1,6 +1,8 @@
 package com.github.orlandroyd.chirp.service
 
+import com.github.orlandroyd.chirp.domain.events.user.UserEvent
 import com.github.orlandroyd.chirp.domain.exception.*
+import com.github.orlandroyd.chirp.domain.infra.message_queue.EventPublisher
 import com.github.orlandroyd.chirp.domain.model.AuthenticatedUser
 import com.github.orlandroyd.chirp.domain.model.User
 import com.github.orlandroyd.chirp.domain.type.UserId
@@ -23,7 +25,8 @@ class AuthService(
     private val passwordEncoder: PasswordEncoder,
     private val jwtService: JwtService,
     private val refreshTokenRepository: RefreshTokenRepository,
-    private val emailVerificationService: EmailVerificationService
+    private val emailVerificationService: EmailVerificationService,
+    private val eventPublisher: EventPublisher
 ) {
 
     @Transactional
@@ -41,11 +44,20 @@ class AuthService(
             UserEntity(
                 email = trimmedEmail,
                 username = username.trim(),
-                hashedPassword = passwordEncoder.encode(password)
+                hashedPassword = passwordEncoder.encode(password)!!
             )
         ).toUser()
 
         val token = emailVerificationService.createVerificationToken(trimmedEmail)
+
+        eventPublisher.publish(
+            event = UserEvent.Created(
+                userId = savedUser.id,
+                email = savedUser.email,
+                username = savedUser.username,
+                verificationToken = token.token
+            )
+        )
 
         return savedUser
     }
