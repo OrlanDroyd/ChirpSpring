@@ -1,10 +1,11 @@
 package com.github.orlandroyd.chirp.service
 
-
+import com.github.orlandroyd.chirp.domain.events.user.UserEvent
 import com.github.orlandroyd.chirp.domain.exception.InvalidCredentialsException
 import com.github.orlandroyd.chirp.domain.exception.InvalidTokenException
 import com.github.orlandroyd.chirp.domain.exception.SamePasswordException
 import com.github.orlandroyd.chirp.domain.exception.UserNotFoundException
+import com.github.orlandroyd.chirp.domain.infra.message_queue.EventPublisher
 import com.github.orlandroyd.chirp.domain.type.UserId
 import com.github.orlandroyd.chirp.infra.database.entities.PasswordResetTokenEntity
 import com.github.orlandroyd.chirp.infra.database.repositories.PasswordResetTokenRepository
@@ -26,7 +27,8 @@ class PasswordResetService(
     private val passwordEncoder: PasswordEncoder,
     @param:Value("\${chirp.email.reset-password.expiry-minutes}")
     private val expiryMinutes: Long,
-    private val refreshTokenRepository: RefreshTokenRepository
+    private val refreshTokenRepository: RefreshTokenRepository,
+    private val eventPublisher: EventPublisher
 ) {
     @Transactional
     fun requestPasswordReset(email: String) {
@@ -40,7 +42,15 @@ class PasswordResetService(
         )
         passwordResetTokenRepository.save(token)
 
-        // TODO: Inform notification service about password reset trigger to send email
+        eventPublisher.publish(
+            event = UserEvent.RequestResetPassword(
+                userId = user.id!!,
+                email = user.email,
+                username = user.username,
+                passwordResetToken = token.token,
+                expiresInMinutes = expiryMinutes
+            )
+        )
     }
 
     @Transactional
@@ -65,7 +75,7 @@ class PasswordResetService(
         val hashedNewPassword = passwordEncoder.encode(newPassword)
         userRepository.save(
             user.apply {
-                this.hashedPassword = hashedNewPassword
+                this.hashedPassword = hashedNewPassword!!
             }
         )
 
@@ -100,7 +110,7 @@ class PasswordResetService(
         val newHashedPassword = passwordEncoder.encode(newPassword)
         userRepository.save(
             user.apply {
-                this.hashedPassword = newHashedPassword
+                this.hashedPassword = newHashedPassword!!
             }
         )
     }
