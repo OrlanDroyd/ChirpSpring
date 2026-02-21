@@ -3,6 +3,10 @@ spring:
     hibernate:
       ddl-auto: validate
 
+  mail:
+    host: smtp.mailgun.org
+    username: postmaster@sandbox6bf191424dbc4497b3e26a86108afc82.mailgun.org
+
 jwt:
   expiration-minutes: 15
 
