@@ -27,3 +27,12 @@ fun ChatParticipantEntity.toChatParticipant(): ChatParticipant {
         profilePictureUrl = profilePictureUrl
     )
 }
+
+fun ChatParticipant.toChatParticipantEntity(): ChatParticipantEntity {
+    return ChatParticipantEntity(
+        userId = userId,
+        username = username,
+        email = email,
+        profilePictureUrl = profilePictureUrl
+    )
+}
