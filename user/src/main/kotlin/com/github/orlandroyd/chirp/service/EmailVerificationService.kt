@@ -3,7 +3,7 @@ package com.github.orlandroyd.chirp.service
 import com.github.orlandroyd.chirp.domain.events.user.UserEvent
 import com.github.orlandroyd.chirp.domain.exception.InvalidTokenException
 import com.github.orlandroyd.chirp.domain.exception.UserNotFoundException
-import com.github.orlandroyd.chirp.domain.infra.message_queue.EventPublisher
+import com.github.orlandroyd.chirp.infra.message_queue.EventPublisher
 import com.github.orlandroyd.chirp.domain.model.EmailVerificationToken
 import com.github.orlandroyd.chirp.infra.database.entities.EmailVerificationTokenEntity
 import com.github.orlandroyd.chirp.infra.database.mappers.toEmailVerificationToken

@@ -3,11 +3,11 @@ package com.github.orlandroyd.chirp.service
 import com.github.orlandroyd.chirp.domain.exception.ChatParticipantNotFoundException
 import com.github.orlandroyd.chirp.domain.exception.InvalidChatSizeException
 import com.github.orlandroyd.chirp.domain.models.Chat
+import com.github.orlandroyd.chirp.domain.type.UserId
 import com.github.orlandroyd.chirp.infra.database.entities.ChatEntity
 import com.github.orlandroyd.chirp.infra.database.mappers.toChat
 import com.github.orlandroyd.chirp.infra.database.repositories.ChatParticipantRepository
 import com.github.orlandroyd.chirp.infra.database.repositories.ChatRepository
-import com.github.orlandroyd.chirp.domain.type.UserId
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

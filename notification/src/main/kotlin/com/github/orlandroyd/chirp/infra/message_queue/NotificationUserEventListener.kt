@@ -1,7 +1,6 @@
 package com.github.orlandroyd.chirp.infra.message_queue
 
 import com.github.orlandroyd.chirp.domain.events.user.UserEvent
-import com.github.orlandroyd.chirp.domain.infra.message_queue.MessageQueues
 import com.github.orlandroyd.chirp.service.EmailService
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.stereotype.Component

@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.github.orlandroyd.chirp.domain.infra.message_queue
+package com.github.orlandroyd.chirp.infra.message_queue
 
 import com.github.orlandroyd.chirp.domain.events.ChirpEvent
 import com.github.orlandroyd.chirp.domain.events.user.UserEventConstants

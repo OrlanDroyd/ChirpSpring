@@ -2,7 +2,7 @@ package com.github.orlandroyd.chirp.service
 
 import com.github.orlandroyd.chirp.domain.events.user.UserEvent
 import com.github.orlandroyd.chirp.domain.exception.*
-import com.github.orlandroyd.chirp.domain.infra.message_queue.EventPublisher
+import com.github.orlandroyd.chirp.infra.message_queue.EventPublisher
 import com.github.orlandroyd.chirp.domain.model.AuthenticatedUser
 import com.github.orlandroyd.chirp.domain.model.User
 import com.github.orlandroyd.chirp.domain.type.UserId
