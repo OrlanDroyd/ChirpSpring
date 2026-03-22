@@ -1,5 +1,7 @@
 package com.github.orlandroyd.chirp.service
 
+import com.github.orlandroyd.chirp.api.dto.ChatMessageDto
+import com.github.orlandroyd.chirp.api.mappers.toChatMessageDto
 import com.github.orlandroyd.chirp.domain.exception.ChatNotFoundException
 import com.github.orlandroyd.chirp.domain.exception.ChatParticipantNotFoundException
 import com.github.orlandroyd.chirp.domain.exception.ForbiddenException
@@ -14,9 +16,11 @@ import com.github.orlandroyd.chirp.infra.database.mappers.toChatMessage
 import com.github.orlandroyd.chirp.infra.database.repositories.ChatMessageRepository
 import com.github.orlandroyd.chirp.infra.database.repositories.ChatParticipantRepository
 import com.github.orlandroyd.chirp.infra.database.repositories.ChatRepository
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.Instant
 
 @Service
 class ChatService(
@@ -24,6 +28,22 @@ class ChatService(
     private val chatParticipantRepository: ChatParticipantRepository,
     private val chatMessageRepository: ChatMessageRepository,
 ) {
+
+    fun getChatMessages(
+        chatId: ChatId,
+        before: Instant?,
+        pageSize: Int
+    ): List<ChatMessageDto> {
+        return chatMessageRepository
+            .findByChatIdBefore(
+                chatId = chatId,
+                before = before ?: Instant.now(),
+                pageable = PageRequest.of(0, pageSize)
+            )
+            .content
+            .asReversed()
+            .map { it.toChatMessage().toChatMessageDto() }
+    }
 
     @Transactional
     fun createChat(
