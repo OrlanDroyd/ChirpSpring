@@ -1,4 +1,4 @@
-package com.github.orlandroyd.chirp.security
+package com.github.orlandroyd.chirp.api.security
 
 import com.github.orlandroyd.chirp.api.config.JwtAuthFilter
 import jakarta.servlet.DispatcherType
