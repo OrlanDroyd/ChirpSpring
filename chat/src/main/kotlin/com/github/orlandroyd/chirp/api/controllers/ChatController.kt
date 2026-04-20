@@ -9,13 +9,15 @@ import com.github.orlandroyd.chirp.api.util.requestUserId
 import com.github.orlandroyd.chirp.domain.type.ChatId
 import com.github.orlandroyd.chirp.service.ChatService
 import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 import java.time.Instant
 
 @RestController
 @RequestMapping("/api/chat")
 class ChatController(
-    private val chatService: ChatService
+    private val chatService: ChatService,
 ) {
 
     companion object {
@@ -33,6 +35,23 @@ class ChatController(
             before = before,
             pageSize = pageSize
         )
+    }
+
+    @GetMapping("/{chatId}")
+    fun getChat(
+        @PathVariable("chatId") chatId: ChatId,
+    ): ChatDto {
+        return chatService.getChatById(
+            chatId = chatId,
+            requestUserId = requestUserId
+        )?.toChatDto() ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+    }
+
+    @GetMapping
+    fun getChatsForUser(): List<ChatDto> {
+        return chatService.findChatsByUser(
+            userId = requestUserId,
+        ).map { it.toChatDto() }
     }
 
     @PostMapping
