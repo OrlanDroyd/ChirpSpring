@@ -5,12 +5,12 @@ import com.github.orlandroyd.chirp.domain.exception.InvalidCredentialsException
 import com.github.orlandroyd.chirp.domain.exception.InvalidTokenException
 import com.github.orlandroyd.chirp.domain.exception.SamePasswordException
 import com.github.orlandroyd.chirp.domain.exception.UserNotFoundException
-import com.github.orlandroyd.chirp.infra.message_queue.EventPublisher
 import com.github.orlandroyd.chirp.domain.type.UserId
 import com.github.orlandroyd.chirp.infra.database.entities.PasswordResetTokenEntity
 import com.github.orlandroyd.chirp.infra.database.repositories.PasswordResetTokenRepository
 import com.github.orlandroyd.chirp.infra.database.repositories.RefreshTokenRepository
 import com.github.orlandroyd.chirp.infra.database.repositories.UserRepository
+import com.github.orlandroyd.chirp.infra.message_queue.EventPublisher
 import com.github.orlandroyd.chirp.infra.security.PasswordEncoder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.repository.findByIdOrNull

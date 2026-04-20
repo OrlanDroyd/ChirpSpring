@@ -3,13 +3,13 @@ package com.github.orlandroyd.chirp.service
 import com.github.orlandroyd.chirp.domain.events.user.UserEvent
 import com.github.orlandroyd.chirp.domain.exception.InvalidTokenException
 import com.github.orlandroyd.chirp.domain.exception.UserNotFoundException
-import com.github.orlandroyd.chirp.infra.message_queue.EventPublisher
 import com.github.orlandroyd.chirp.domain.model.EmailVerificationToken
 import com.github.orlandroyd.chirp.infra.database.entities.EmailVerificationTokenEntity
 import com.github.orlandroyd.chirp.infra.database.mappers.toEmailVerificationToken
 import com.github.orlandroyd.chirp.infra.database.mappers.toUser
 import com.github.orlandroyd.chirp.infra.database.repositories.EmailVerificationTokenRepository
 import com.github.orlandroyd.chirp.infra.database.repositories.UserRepository
+import com.github.orlandroyd.chirp.infra.message_queue.EventPublisher
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
