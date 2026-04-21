@@ -19,3 +19,5 @@ chirp:
   rate-limit:
     ip:
       apply-limit: true
+  web-socket:
+    allowed-origin: "https://chirp.pl-coding.com"
