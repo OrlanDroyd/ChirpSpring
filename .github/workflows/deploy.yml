@@ -1,0 +1,46 @@
+name: Deploy Chirp Backend
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Add server to known hosts
+        run: |
+          ssh-keyscan -H 13.53.131.156 > ~/.ssh/known_hosts
+
+      - name: Create Firebase credentials file
+        run: |
+          mkdir -p app/src/main/resources/firebase-credentials
+          echo "${{ secrets.FIREBASE_CREDENTIALS_BASE64 }}" | base64 -d > app/src/main/resources/firebase-credentials/chirp-firebase-adminsdk.json
+
+      - name: Build JAR
+        run: |
+          ./gradlew :app:bootJar
+
+      - name: Deploy JAR to Server
+        run: |
+          JAR_NAME="app-0.0.1-SNAPSHOT.jar"
+          LOCAL_JAR_PATH="app/build/libs/$JAR_NAME"
+          REMOTE_SERVER="orlandroyd@13.53.131.156"
+          REMOTE_JAR_DIR="/opt/chirp"
+
+          rsync -avz -e "ssh" $LOCAL_JAR_PATH $REMOTE_SERVER:$REMOTE_JAR_DIR/$JAR_NAME
+
+          ssh $REMOTE_SERVER << EOF
+            mv $REMOTE_JAR_DIR/$JAR_NAME $REMOTE_JAR_DIR/chirp.jar
+            sudo systemctl restart chirp.service
+          EOF
