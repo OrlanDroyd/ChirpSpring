@@ -2,6 +2,7 @@ package com.github.orlandroyd.chirp.service
 
 import com.github.orlandroyd.chirp.api.dto.ChatMessageDto
 import com.github.orlandroyd.chirp.api.mappers.toChatMessageDto
+import com.github.orlandroyd.chirp.domain.event.ChatCreatedEvent
 import com.github.orlandroyd.chirp.domain.event.ChatParticipantLeftEvent
 import com.github.orlandroyd.chirp.domain.event.ChatParticipantsJoinedEvent
 import com.github.orlandroyd.chirp.domain.exception.ChatNotFoundException
@@ -96,12 +97,19 @@ class ChatService(
         val creator = chatParticipantRepository.findByIdOrNull(creatorId)
             ?: throw ChatParticipantNotFoundException(creatorId)
 
-        return chatRepository.save(
+        return chatRepository.saveAndFlush(
             ChatEntity(
                 creator = creator,
                 participants = setOf(creator) + otherParticipants
             )
-        ).toChat(lastMessage = null)
+        ).toChat(lastMessage = null).also { entity ->
+            applicationEventPublisher.publishEvent(
+                ChatCreatedEvent(
+                    chatId = entity.id,
+                    participantIds = entity.participants.map { it.userId }
+                )
+            )
+        }
     }
 
     @Transactional

@@ -2,10 +2,7 @@ package com.github.orlandroyd.chirp.api.websocket
 
 import com.github.orlandroyd.chirp.api.dto.ws.*
 import com.github.orlandroyd.chirp.api.mappers.toChatMessageDto
-import com.github.orlandroyd.chirp.domain.event.ChatParticipantLeftEvent
-import com.github.orlandroyd.chirp.domain.event.ChatParticipantsJoinedEvent
-import com.github.orlandroyd.chirp.domain.event.MessageDeletedEvent
-import com.github.orlandroyd.chirp.domain.event.ProfilePictureUpdatedEvent
+import com.github.orlandroyd.chirp.domain.event.*
 import com.github.orlandroyd.chirp.domain.type.ChatId
 import com.github.orlandroyd.chirp.domain.type.UserId
 import com.github.orlandroyd.chirp.service.ChatMessageService
@@ -176,6 +173,26 @@ class ChatWebSocketHandler(
     }
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    fun onChatCreated(event: ChatCreatedEvent) {
+        connectionLock.write {
+            event.participantIds.forEach { userId ->
+                userChatIds.compute(userId) { _, chatIds ->
+                    (chatIds ?: mutableSetOf()).apply {
+                        add(event.chatId)
+                    }
+                }
+
+                userToSessions[userId]?.forEach { sessionId ->
+                    chatToSessions.compute(event.chatId) { _, sessions ->
+                        (sessions ?: mutableSetOf()).apply { add(sessionId) }
+                    }
+                }
+            }
+        }
+    }
+
+
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     fun onJoinChat(event: ChatParticipantsJoinedEvent) {
         connectionLock.write {
             event.userIds.forEach { userId ->
@@ -318,10 +335,10 @@ class ChatWebSocketHandler(
                 sessions[sessionId]
             } ?: return@forEach
             try {
-                if(userSession.session.isOpen) {
+                if (userSession.session.isOpen) {
                     userSession.session.sendMessage(TextMessage(messageJson))
                 }
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 logger.error("Could not send profile picture update to session $sessionId", e)
             }
         }
