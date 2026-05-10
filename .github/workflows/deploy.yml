@@ -25,7 +25,7 @@ jobs:
       - name: Create Firebase credentials file
         run: |
           mkdir -p app/src/main/resources/firebase-credentials
-          echo "${{ secrets.FIREBASE_CREDENTIALS_BASE64 }}" | base64 -d > app/src/main/resources/firebase-credentials/chirp-firebase-adminsdk.json
+          echo "${{ secrets.FIREBASE_CREDENTIALS_BASE64 }}" | base64 -d > app/src/main/resources/firebase-credentials/chirp-plcoding-firebase-adminsdk.json
 
       - name: Build JAR
         run: |
