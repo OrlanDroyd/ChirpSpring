@@ -12,8 +12,8 @@ spring:
       timeout: 2000ms
 
   datasource:
-    url: jdbc:postgresql://db.mhmbfgbacoebyuqvnufn.supabase.co:5432/postgres
-    username: postgres
+    url: jdbc:postgresql://aws-1-eu-north-1.pooler.supabase.com:5432/postgres
+    username: postgres.mhmbfgbacoebyuqvnufn
     password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
