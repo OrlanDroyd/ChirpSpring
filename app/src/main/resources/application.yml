@@ -4,10 +4,10 @@ spring:
 
   data:
     redis:
-      host: "redis-11621.c250.eu-central-1-1.ec2.cloud.redislabs.com"
+      host: "redis-12998.c311.eu-central-1-1.ec2.cloud.redislabs.com"
       password: ${REDIS_PASSWORD}
       username: "default"
-      port: 11621
+      port: 12998
       connect-timeout: 5000ms
       timeout: 2000ms
 
